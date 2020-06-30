@@ -9,11 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_tools.*
 import robin.scaffold.dagger.R
+import robin.scaffold.dagger.di.Injectable
 import robin.scaffold.dagger.utils.MyViewModelFactory
 import robin.scaffold.dagger.viewmodel.RoomViewModel
 import javax.inject.Inject
 
-class RoomFragment : Fragment() {
+class RoomFragment : Fragment() , Injectable {
     private lateinit var toolsViewModel: RoomViewModel
     @Inject
     lateinit var factory: MyViewModelFactory

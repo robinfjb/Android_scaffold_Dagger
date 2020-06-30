@@ -12,7 +12,6 @@ import robin.scaffold.dagger.ui.home.HomeFragmentArgs
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-        private val context: Context,
         private val repository: HomeRepository
 ) : ViewModel(){
     private val _text = MutableLiveData<String>()

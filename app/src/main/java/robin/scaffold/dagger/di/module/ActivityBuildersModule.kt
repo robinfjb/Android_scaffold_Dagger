@@ -2,7 +2,7 @@ package robin.scaffold.dagger.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import robin.scaffold.dagger.MainActivity
+import robin.scaffold.dagger.ui.MainActivity
 import robin.scaffold.dagger.ui.NavTestActivity
 
 

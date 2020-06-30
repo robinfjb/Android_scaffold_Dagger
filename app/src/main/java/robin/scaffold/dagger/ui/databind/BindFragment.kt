@@ -13,9 +13,14 @@ import robin.scaffold.dagger.R
 import robin.scaffold.dagger.databinding.FragmentDataBindingComponent
 import robin.scaffold.dagger.databinding.FragmentShareBinding
 import robin.scaffold.dagger.databinding.autoCleared
+import robin.scaffold.dagger.di.Injectable
+import robin.scaffold.dagger.utils.MyViewModelFactory
 import robin.scaffold.dagger.viewmodel.BindViewModel
+import javax.inject.Inject
 
-class BindFragment : Fragment(), TestAction{
+class BindFragment : Fragment(), Injectable, TestAction{
+    @Inject
+    lateinit var factory: MyViewModelFactory
     private lateinit var bindViewModel: BindViewModel
     private var binding by autoCleared<FragmentShareBinding>()
     private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
@@ -25,7 +30,7 @@ class BindFragment : Fragment(), TestAction{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindViewModel = ViewModelProviders.of(this).get(BindViewModel::class.java)
+        bindViewModel = ViewModelProviders.of(this, factory).get(BindViewModel::class.java)
         val dataBinding = DataBindingUtil.inflate<FragmentShareBinding>(
                 inflater,
                 R.layout.fragment_share,

@@ -11,6 +11,7 @@ import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector
 import dagger.android.HasFragmentInjector
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 import robin.scaffold.dagger.SampleApp
 
 object AppInjectorHelper {
@@ -48,7 +49,7 @@ object AppInjectorHelper {
     }
 
     private fun handleActivity(activity: Activity) {
-        if (activity is HasAndroidInjector || activity is HasFragmentInjector) {
+        if (activity is Injectable || activity is HasSupportFragmentInjector) {
             AndroidInjection.inject(activity)
         }
         if (activity is FragmentActivity) {

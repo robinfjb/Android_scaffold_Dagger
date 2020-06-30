@@ -9,8 +9,7 @@ import robin.scaffold.dagger.db.AppDatabase
 import robin.scaffold.dagger.repo.PreferenceObject
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class,
-    NetworkModule::class])
+@Module(includes = [ViewModelModule::class,NetworkModule::class])
 class AppModule {
 
     @Singleton

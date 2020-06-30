@@ -19,10 +19,15 @@ import robin.scaffold.dagger.R
 import robin.scaffold.dagger.databinding.FragmentDataBindingComponent
 import robin.scaffold.dagger.databinding.FragmentSecondHomeBinding
 import robin.scaffold.dagger.databinding.autoCleared
+import robin.scaffold.dagger.di.Injectable
 import robin.scaffold.dagger.net.Status
+import robin.scaffold.dagger.utils.MyViewModelFactory
 import robin.scaffold.dagger.viewmodel.PagingViewModel
+import javax.inject.Inject
 
-class PagingFragment : Fragment() {
+class PagingFragment : Fragment(), Injectable {
+    @Inject
+    lateinit var factory: MyViewModelFactory
     private lateinit var pagingViewModel: PagingViewModel
     private lateinit var mAdapter: PagingDataAdpter
     private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
@@ -30,7 +35,7 @@ class PagingFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        pagingViewModel = ViewModelProviders.of(this)[PagingViewModel::class.java]
+        pagingViewModel = ViewModelProviders.of(this, factory)[PagingViewModel::class.java]
         val dataBinding = DataBindingUtil.inflate<FragmentSecondHomeBinding>(
                 inflater,
                 R.layout.fragment_second_home,

@@ -15,11 +15,16 @@ import robin.scaffold.dagger.databinding.FragmentDataBindingComponent
 import robin.scaffold.dagger.databinding.FragmentHomeBinding
 import robin.scaffold.dagger.databinding.FragmentShareBinding
 import robin.scaffold.dagger.databinding.autoCleared
+import robin.scaffold.dagger.di.Injectable
 import robin.scaffold.dagger.ui.NavTestActivity
+import robin.scaffold.dagger.utils.MyViewModelFactory
 import robin.scaffold.dagger.utils.startActivity
 import robin.scaffold.dagger.viewmodel.HomeViewModel
+import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , Injectable {
+    @Inject
+    lateinit var factory: MyViewModelFactory
     private lateinit var homeViewModel: HomeViewModel
     private var binding by autoCleared<FragmentHomeBinding>()
     private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
@@ -29,7 +34,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
         val dataBinding = DataBindingUtil.inflate<FragmentHomeBinding>(
                 inflater,
                 R.layout.fragment_home,

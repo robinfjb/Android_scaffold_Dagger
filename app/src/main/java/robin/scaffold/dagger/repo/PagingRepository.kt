@@ -6,8 +6,9 @@ import androidx.paging.PagedList
 import robin.scaffold.dagger.db.Book
 import robin.scaffold.dagger.ui.paging.Listing
 import robin.scaffold.dagger.ui.paging.BookDataSourceFactory
+import javax.inject.Inject
 
-class PagingRepository () {
+class PagingRepository @Inject constructor() {
     fun getBookList(pageSize: Int): Listing<Book> {
         val sourceFactory= BookDataSourceFactory()
         val pagedListConfig = PagedList.Config.Builder()

@@ -12,7 +12,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import robin.scaffold.dagger.BuildConfig
-import robin.scaffold.dagger.MainActivity
+import robin.scaffold.dagger.ui.MainActivity
 import robin.scaffold.dagger.SampleApp
 import kotlin.random.Random
 

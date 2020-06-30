@@ -1,9 +1,8 @@
-package robin.scaffold.dagger
-
-import android.app.Fragment
+package robin.scaffold.dagger.ui
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,15 +12,16 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import robin.scaffold.dagger.R
 import robin.scaffold.dagger.di.Injectable
 import robin.scaffold.dagger.viewmodel.ActivityViewModel
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), Injectable, HasFragmentInjector {
+class MainActivity : AppCompatActivity(), Injectable, HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), Injectable, HasFragmentInjector {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
             ), drawer_layout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -67,5 +67,5 @@ class MainActivity : AppCompatActivity(), Injectable, HasFragmentInjector {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentDispatchingAndroidInjector
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentDispatchingAndroidInjector
 }
