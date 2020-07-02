@@ -13,7 +13,7 @@ interface LogDao {
     suspend fun insertLogData(logData: LogData)
 
     @Query("SELECT * FROM log")
-    suspend fun searchLogData(): List<LogData>
+    fun searchLogData(): LiveData<List<LogData>>
 
     @Query("DELETE FROM log WHERE `time` = :time")
     suspend fun deleteLogByTime(time: Long)

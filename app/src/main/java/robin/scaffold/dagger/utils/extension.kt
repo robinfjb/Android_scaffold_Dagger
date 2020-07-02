@@ -3,9 +3,12 @@ package robin.scaffold.dagger.utils
 import android.app.Activity
 import android.app.Service
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import robin.scaffold.dagger.net.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,4 +34,42 @@ fun String.utc2Local(): String {
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val date = Date(toLong())
     return simpleDateFormat.format(date)
+}
+
+fun <T> LiveData<ApiResponse<T>>.asResource(): LiveData<Resource<T>> {
+    return Transformations.map(this) { response ->
+        when (response) {
+            is ApiSuccessResponse<T> -> {
+                Resource.success(response.body)
+            }
+            is ApiEmptyResponse<T> -> {
+                Resource.error("empty", null)
+            }
+            is ApiErrorResponse<T> -> {
+                Resource.error(response.errorMessage, null)
+            }
+            else -> {
+                Resource.error("", null)
+            }
+        }
+    }
+}
+
+fun <T> LiveData<ApiResponse<T>>.asResourceCompactEmpty(): LiveData<Resource<T>> {
+    return Transformations.map(this) { response ->
+        when (response) {
+            is ApiSuccessResponse<T> -> {
+                Resource.success(response.body)
+            }
+            is ApiEmptyResponse<T> -> {
+                Resource.success(null)
+            }
+            is ApiErrorResponse<T> -> {
+                Resource.error(response.errorMessage, null)
+            }
+            else -> {
+                Resource.error("", null)
+            }
+        }
+    }
 }

@@ -3,6 +3,8 @@ package robin.scaffold.dagger.di.module
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import robin.scaffold.dagger.db.AppDatabase
@@ -30,6 +32,12 @@ class AppModule {
     @Singleton
     internal fun providePreferenceObject(context: Context): PreferenceObject {
         return PreferenceObject(context)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideGson(): Gson {
+        return GsonBuilder().create()
     }
 
 }

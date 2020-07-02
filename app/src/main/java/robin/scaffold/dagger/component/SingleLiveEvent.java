@@ -12,6 +12,10 @@ import androidx.lifecycle.Observer;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * SingleLiveEvent将发送更新的值，原value若已经发送过就不会再次发送
+ * @param <T>
+ */
 
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
     private static final String TAG = "SingleLiveEvent";

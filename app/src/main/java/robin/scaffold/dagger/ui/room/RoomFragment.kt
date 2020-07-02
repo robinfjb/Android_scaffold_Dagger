@@ -39,16 +39,16 @@ class RoomFragment : Fragment() , Injectable {
         }
         delete.setOnClickListener {
             val id = delete_id.editableText.toString().toInt()
-            toolsViewModel.delete(id)
+            toolsViewModel.delete(viewLifecycleOwner, id)
         }
         query_1.setOnClickListener {
-            toolsViewModel.queryAll()
+            toolsViewModel.queryAll(viewLifecycleOwner)
         }
         query_2.setOnClickListener {
             val name = query_2_name.editableText.toString()
             val lowP = query_2_price1.editableText.toString().toInt()
             val highP = query_2_price2.editableText.toString().toInt()
-            toolsViewModel.queryByFilter(name, lowP, highP)
+            toolsViewModel.queryByFilter(viewLifecycleOwner, name, lowP, highP)
         }
     }
 }

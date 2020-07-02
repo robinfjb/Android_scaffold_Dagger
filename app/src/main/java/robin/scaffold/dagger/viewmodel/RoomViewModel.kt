@@ -1,9 +1,9 @@
 package robin.scaffold.dagger.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import robin.scaffold.dagger.db.*
 import robin.scaffold.dagger.repo.RoomRepository
+import robin.scaffold.dagger.utils.ListTypeConverters
 import robin.scaffold.dagger.utils.coroutine
 import javax.inject.Inject
 
@@ -26,24 +26,44 @@ class RoomViewModel@Inject constructor(
         }
     }
 
-    fun delete(id:Int) {
-        coroutine {
-            repository.deleteBookById(id)
-        }
+    fun delete(lifecycleOwner : LifecycleOwner, id:Int) {
+        val liveData = repository.loadAllByIds(intArrayOf(id))
+        liveData.observe(lifecycleOwner, Observer {
+            if(it.isEmpty().not()) {
+                coroutine {
+                    repository.deleteBook(it[0])
+                }
+            }
+        })
+//        val result = MediatorLiveData<List<Book>>()
+//        val liveData = repository.loadAllByIds(intArrayOf(id))
+//        result.addSource(liveData) {
+//            result.removeSource(liveData)
+//            if(it.isEmpty().not()) {
+//                coroutine {
+//                    repository.deleteBook(it[0])
+//                }
+//            }
+//        }
     }
 
-    fun queryAll() {
-        coroutine {
-            val result = repository.queryAll()
+    fun queryAll(lifecycleOwner : LifecycleOwner) {
+        repository.queryAll().observe(lifecycleOwner, Observer {
+            val strs = it.map {
+                it.toString()
+            }
+            val result = ListTypeConverters.strListToString(strs)
             _text.postValue(result)
-        }
-
+        })
     }
 
-    fun queryByFilter(name:String, priceLowest:Int, priceHighest:Int) {
-        coroutine {
-            val result = repository.queryByFilter("%${name}%", priceLowest, priceHighest)
+    fun queryByFilter(lifecycleOwner : LifecycleOwner, name:String, priceLowest:Int, priceHighest:Int) {
+        repository.queryByFilter("%${name}%", priceLowest, priceHighest).observe(lifecycleOwner, Observer {
+            val strs = it.map {
+                it.toString()
+            }
+            val result = ListTypeConverters.strListToString(strs)
             _text.postValue(result)
-        }
+        })
     }
 }

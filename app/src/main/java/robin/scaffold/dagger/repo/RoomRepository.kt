@@ -1,9 +1,11 @@
 package robin.scaffold.dagger.repo
 
+import androidx.lifecycle.*
 import robin.scaffold.dagger.db.AppDatabase
 import robin.scaffold.dagger.db.Book
 import robin.scaffold.dagger.db.Shop
 import robin.scaffold.dagger.utils.ListTypeConverters
+import robin.scaffold.dagger.utils.coroutine
 import javax.inject.Inject
 
 class RoomRepository@Inject constructor(
@@ -18,28 +20,12 @@ class RoomRepository@Inject constructor(
         db.bookDao().insertShop(*data)
     }
 
-    suspend fun deleteBookById(id:Int) {
-        val books = db.bookDao().loadAllByIds(intArrayOf(id))
-        books?.apply {
-            if(books.isEmpty().not()) {
-                db.bookDao().delete(books[0])
-            }
-        }
-    }
+    fun loadAllByIds(ids : IntArray) : LiveData<List<Book>> = db.bookDao().loadAllByIds(ids)
 
-    suspend fun queryAll(): String? {
-        val books = db.bookDao().getAll()
-        val strs = books.map {
-            it.toString()
-        }
-        return ListTypeConverters.strListToString(strs)
-    }
 
-    suspend fun queryByFilter(name:String, priceLowest:Int, priceHighest:Int) :String?{
-        val books = db.bookDao().findByFilter(name, priceLowest, priceHighest)
-        val strs = books.map {
-            it.toString()
-        }
-        return ListTypeConverters.strListToString(strs)
-    }
+    suspend fun deleteBook(book :Book) = db.bookDao().delete(book)
+
+    fun queryAll() = db.bookDao().getAll()
+
+    fun queryByFilter(name:String, priceLowest:Int, priceHighest:Int) = db.bookDao().findByFilter(name, priceLowest, priceHighest)
 }

@@ -53,6 +53,7 @@ dependencies {
     //lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc02"
     implementation "androidx.fragment:fragment-ktx:1.2.0-rc05"
     //room
     kapt "androidx.room:room-compiler:$versions.room"

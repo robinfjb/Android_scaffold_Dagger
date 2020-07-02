@@ -62,6 +62,6 @@ class HomeFragment : Fragment() , Injectable {
         go_to_nav.setOnClickListener {
             requireContext().startActivity<NavTestActivity>()
         }
-        homeViewModel.getWeather()
+        homeViewModel.getWeather(lifecycleOwner = viewLifecycleOwner)
     }
 }

@@ -1,5 +1,6 @@
 package robin.scaffold.dagger.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import robin.scaffold.dagger.db.Book
 import robin.scaffold.dagger.db.BookWithShop
@@ -11,10 +12,10 @@ interface BookDao {
 //    fun getAll(): List<Book>
 
     @Query("SELECT * FROM book WHERE id IN (:userIds)")
-    suspend fun loadAllByIds(userIds: IntArray): List<Book>
+    fun loadAllByIds(userIds: IntArray): LiveData<List<Book>>
 
     @Query("SELECT * FROM book WHERE name LIKE :name AND price BETWEEN :priceLowest AND :priceHighest")
-    suspend fun findByFilter(name: String, priceLowest:Int, priceHighest:Int): List<Book>
+    fun findByFilter(name: String, priceLowest:Int, priceHighest:Int): LiveData<List<Book>>
 
     @Delete
     suspend fun delete(user: Book)
@@ -27,5 +28,5 @@ interface BookDao {
 
     @Transaction
     @Query("SELECT * FROM shop")
-    suspend fun getAll(): List<BookWithShop>
+    fun getAll(): LiveData<List<BookWithShop>>
 }

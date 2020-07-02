@@ -1,8 +1,10 @@
 package robin.scaffold.dagger.ui
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import robin.scaffold.dagger.R
 import robin.scaffold.dagger.di.Injectable
+import robin.scaffold.dagger.utils.LiveDataBus
 import robin.scaffold.dagger.viewmodel.ActivityViewModel
 import javax.inject.Inject
 
