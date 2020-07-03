@@ -20,3 +20,5 @@ data class WeatherInfo(
         val img2: String,
         val ptime: String
 )
+
+data class ImageModel(val url: String)
