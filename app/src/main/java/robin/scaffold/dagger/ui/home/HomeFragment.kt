@@ -13,9 +13,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import robin.scaffold.dagger.R
 import robin.scaffold.dagger.databinding.FragmentDataBindingComponent
 import robin.scaffold.dagger.databinding.FragmentHomeBinding
-import robin.scaffold.dagger.databinding.FragmentShareBinding
 import robin.scaffold.dagger.databinding.autoCleared
 import robin.scaffold.dagger.di.Injectable
+import robin.scaffold.dagger.net.interceptor.GlideApp
 import robin.scaffold.dagger.ui.NavTestActivity
 import robin.scaffold.dagger.utils.MyViewModelFactory
 import robin.scaffold.dagger.utils.startActivity
@@ -63,5 +63,7 @@ class HomeFragment : Fragment() , Injectable {
             requireContext().startActivity<NavTestActivity>()
         }
         homeViewModel.getWeather(lifecycleOwner = viewLifecycleOwner)
+
+        GlideApp.with(this).load("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png").into(image)
     }
 }

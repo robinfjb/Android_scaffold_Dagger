@@ -17,6 +17,7 @@ import robin.scaffold.dagger.net.NullOnEmptyConverterFactory
 import robin.scaffold.dagger.net.interceptor.BasicParamsInterceptor
 import robin.scaffold.dagger.net.interceptor.GzipRequestInterceptor
 import robin.scaffold.dagger.net.interceptor.MyHttpLoggingInterceptor
+import robin.scaffold.dagger.net.interceptor.PrintingEventListener
 import robin.scaffold.dagger.repo.PreferenceObject
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -47,6 +48,7 @@ class NetworkModule {
                                      obj: PreferenceObject
     ): OkHttpClient {
         val httpClientBuilder = OkHttpClient.Builder().apply {
+            eventListenerFactory(PrintingEventListener.FACTORY)
             addInterceptor(GzipRequestInterceptor())
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(60, TimeUnit.SECONDS)

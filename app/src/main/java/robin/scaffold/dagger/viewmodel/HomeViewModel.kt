@@ -2,7 +2,9 @@ package robin.scaffold.dagger.viewmodel
 
 import android.os.Bundle
 import androidx.lifecycle.*
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
 import robin.scaffold.dagger.net.Status
 import robin.scaffold.dagger.repo.HomeRepository
 import robin.scaffold.dagger.ui.home.HomeFragmentArgs
@@ -45,7 +47,6 @@ class HomeViewModel @Inject constructor(
                 _textNet.postValue(it.message)
             }
         })
-        repository.getWeather().map {  }
     }
 
     private fun postMessage(message: String) {
