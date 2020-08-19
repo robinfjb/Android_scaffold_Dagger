@@ -3,6 +3,7 @@ package robin.scaffold.dagger.utils
 import android.app.Activity
 import android.app.Service
 import android.content.Context
+import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import kotlinx.coroutines.CoroutineScope
@@ -72,4 +73,17 @@ fun <T> LiveData<ApiResponse<T>>.asResourceCompactEmpty(): LiveData<Resource<T>>
             }
         }
     }
+}
+
+fun isNetworkConnected(context: Context): Boolean {
+    if (context != null) {
+        try {
+            val connectivityManager = context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo = connectivityManager?.activeNetworkInfo
+            return networkInfo != null && networkInfo.isAvailable
+        } catch (ignored: Exception) {
+        }
+    }
+    return true
 }

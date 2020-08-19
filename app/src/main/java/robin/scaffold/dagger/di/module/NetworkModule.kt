@@ -5,6 +5,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,10 +15,7 @@ import robin.scaffold.dagger.db.AppDatabase
 import robin.scaffold.dagger.net.ApiLibService
 import robin.scaffold.dagger.net.LiveDataCallAdapterFactory
 import robin.scaffold.dagger.net.NullOnEmptyConverterFactory
-import robin.scaffold.dagger.net.interceptor.BasicParamsInterceptor
-import robin.scaffold.dagger.net.interceptor.GzipRequestInterceptor
-import robin.scaffold.dagger.net.interceptor.MyHttpLoggingInterceptor
-import robin.scaffold.dagger.net.interceptor.PrintingEventListener
+import robin.scaffold.dagger.net.interceptor.*
 import robin.scaffold.dagger.repo.PreferenceObject
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -47,7 +45,11 @@ class NetworkModule {
                                      db: AppDatabase,
                                      obj: PreferenceObject
     ): OkHttpClient {
+        val cacheDir = context.cacheDir
+        val maxSize = 50 * 1024 * 1024L
+        val cache = Cache(cacheDir, maxSize)
         val httpClientBuilder = OkHttpClient.Builder().apply {
+            cache(cache)
             eventListenerFactory(PrintingEventListener.FACTORY)
             addInterceptor(GzipRequestInterceptor())
             connectTimeout(60, TimeUnit.SECONDS)
@@ -60,6 +62,7 @@ class NetworkModule {
                     .addHeaderLine("Client-Info: app-1.1.0")  // 示例： 添加公共消息头
                     .build())
             addInterceptor(MyHttpLoggingInterceptor(db, obj))
+            addInterceptor(NoNetworkInterceptor(context))
             if (BuildConfig.DEBUG) {
                 addNetworkInterceptor(StethoInterceptor())
                 addInterceptor(HttpLoggingInterceptor().apply {
